@@ -43,12 +43,18 @@ namespace NTTDataTest.Domain.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<int>("userid")
+                        .HasColumnType("integer");
+
                     b.Property<string>("zipcode")
                         .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("character varying(8)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("userid")
+                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
@@ -113,9 +119,6 @@ namespace NTTDataTest.Domain.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("addressid")
-                        .HasColumnType("integer");
-
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -141,14 +144,17 @@ namespace NTTDataTest.Domain.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("addressid")
-                        .IsUnique();
-
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("NTTDataTest.Domain.Entities.Address", b =>
                 {
+                    b.HasOne("NTTDataTest.Domain.Entities.User", "user")
+                        .WithOne("address")
+                        .HasForeignKey("NTTDataTest.Domain.Entities.Address", "userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("NTTDataTest.Domain.Entities.Geolocation", "geolocation", b1 =>
                         {
                             b1.Property<int>("Addressid")
@@ -172,6 +178,8 @@ namespace NTTDataTest.Domain.Migrations
 
                     b.Navigation("geolocation")
                         .IsRequired();
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("NTTDataTest.Domain.Entities.Product", b =>
@@ -202,12 +210,6 @@ namespace NTTDataTest.Domain.Migrations
 
             modelBuilder.Entity("NTTDataTest.Domain.Entities.User", b =>
                 {
-                    b.HasOne("NTTDataTest.Domain.Entities.Address", "address")
-                        .WithOne("user")
-                        .HasForeignKey("NTTDataTest.Domain.Entities.User", "addressid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("NTTDataTest.Domain.Entities.Name", "name", b1 =>
                         {
                             b1.Property<int>("Userid")
@@ -229,15 +231,13 @@ namespace NTTDataTest.Domain.Migrations
                                 .HasForeignKey("Userid");
                         });
 
-                    b.Navigation("address");
-
                     b.Navigation("name")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NTTDataTest.Domain.Entities.Address", b =>
+            modelBuilder.Entity("NTTDataTest.Domain.Entities.User", b =>
                 {
-                    b.Navigation("user")
+                    b.Navigation("address")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

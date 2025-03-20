@@ -20,5 +20,7 @@ public class Address
 
     public Geolocation geolocation { get; set; }
 
+    public int userid { get; set; }
+
     public virtual User user { get; set; }
 }
