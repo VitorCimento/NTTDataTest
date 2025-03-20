@@ -1,5 +1,6 @@
 ﻿using NTTDataTest.Domain.Entities;
 using NTTDataTest.Domain.Enums;
+using NTTDataTest.Domain.Mappings.DTO.Address;
 using System.ComponentModel.DataAnnotations;
 
 namespace NTTDataTest.Domain.Mappings.DTO.User;
@@ -26,4 +27,7 @@ public class CreateUserDTO
 
     [Required]
     public EUserRole role { get; set; }
+
+    [Required]
+    public CreateAddressDTO address { get; set; }
 }

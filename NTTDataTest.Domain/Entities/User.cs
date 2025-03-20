@@ -28,4 +28,7 @@ public class User
 
     [Required]
     public EUserRole role { get; set; }
+
+    public int addressid { get; set; }
+    public virtual Address address { get; set; }
 }

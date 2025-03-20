@@ -19,4 +19,6 @@ public class Address
     public string zipcode { get; set; }
 
     public Geolocation geolocation { get; set; }
+
+    public virtual User user { get; set; }
 }

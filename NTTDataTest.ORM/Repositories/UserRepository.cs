@@ -19,7 +19,7 @@ public class UserRepository
         _mapper = mapper;
     }
 
-    public async Task<User?> GetByIdAsync(int id) => await _context.Users.FirstOrDefaultAsync(x => x.id == id);
+    public async Task<User?> GetByIdAsync(int id) => await _context.Users.Include(x => x.address).FirstOrDefaultAsync(x => x.id == id);
 
     public PagedDTO<ReadUserDTO> GetPaged(int page, int size, string order, string direction)
     {
@@ -49,10 +49,12 @@ public class UserRepository
         return direction == "asc"
             ? _context.Users
                 .OrderBy(sortBy)
+                .Include(x => x.address)
                 .Skip(skip * size)
                 .Take(size)
             : _context.Users
                 .OrderByDescending(sortBy)
+                .Include(x => x.address)
                 .Skip(skip * size)
                 .Take(size);
     }

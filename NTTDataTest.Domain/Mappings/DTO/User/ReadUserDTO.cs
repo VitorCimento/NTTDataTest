@@ -1,5 +1,6 @@
 ﻿using NTTDataTest.Domain.Entities;
 using NTTDataTest.Domain.Enums;
+using NTTDataTest.Domain.Mappings.DTO.Address;
 
 namespace NTTDataTest.Domain.Mappings.DTO.User;
 
@@ -20,4 +21,6 @@ public class ReadUserDTO
     public EUserStatus status { get; set; }
 
     public EUserRole role { get; set; }
+
+    public ReadAddressDTO address { get; set; }
 }
