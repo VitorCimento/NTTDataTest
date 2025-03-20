@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NTTDataTest.Domain.Entities;
-using NTTDataTest.Domain.Mappings.DTO.User;
+using NTTDataTest.Domain.Mappings.DTO.Address;
 using NTTDataTest.ORM.Repositories;
 
 namespace NTTDataTest.API.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class UsersController : ControllerBase
+public class AddressesController : ControllerBase
 {
-    private UserRepository _repository;
+    private AddressRepository _repository;
     private IMapper _mapper;
 
-    public UsersController(UserRepository repository, IMapper mapper)
+    public AddressesController(AddressRepository repository, IMapper mapper)
     {
         _repository = repository;
         _mapper = mapper;
@@ -42,22 +42,22 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateUserDTO userDTO)
+    public async Task<IActionResult> Post([FromBody] CreateAddressDTO addressDTO)
     {
-        var user = _mapper.Map<User>(userDTO);
-        var createdUser = await _repository.CreateAsync(user);
+        var address = _mapper.Map<Address>(addressDTO);
+        var createdAddress = await _repository.CreateAsync(address);
 
-        return CreatedAtAction(nameof(Get), new { createdUser.id }, createdUser);
+        return CreatedAtAction(nameof(Get), new { createdAddress.id }, createdAddress);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UpdateUserDTO userDTO)
+    public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UpdateAddressDTO addressDTO)
     {
-        var user = await _repository.PutAsync(id, userDTO);
+        var address = await _repository.PutAsync(id, addressDTO);
 
-        if (user == null) return NotFound();
+        if (address == null) return NotFound();
 
-        return Ok(user);
+        return Ok(address);
     }
 
     [HttpDelete("{id}")]
