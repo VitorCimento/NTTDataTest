@@ -8,4 +8,5 @@ public class NTTContext : DbContext
     public NTTContext(DbContextOptions<NTTContext> ctxOpts) : base(ctxOpts) { }
 
     public DbSet<Product> Products { get; set; }
+    public DbSet<User> Users { get; set; }
 }
