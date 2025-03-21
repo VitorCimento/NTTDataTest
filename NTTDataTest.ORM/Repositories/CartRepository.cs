@@ -19,7 +19,7 @@ public class CartRepository
         _mapper = mapper;
     }
 
-    public async Task<Cart?> GetByIdAsync(int id) => await _context.Carts.FirstOrDefaultAsync(x => x.id == id);
+    public async Task<Cart?> GetByIdAsync(int id) => await _context.Carts.Include(x => x.products).FirstOrDefaultAsync(x => x.id == id);
 
     public PagedDTO<ReadCartDTO> GetPaged(int page, int size, string order, string direction)
     {
@@ -90,10 +90,12 @@ public class CartRepository
         return direction == "asc"
             ? _context.Carts
                 .OrderBy(sortBy)
+                .Include(x => x.products)
                 .Skip(skip * size)
                 .Take(size)
             : _context.Carts
                 .OrderByDescending(sortBy)
+                .Include(x => x.products)
                 .Skip(skip * size)
                 .Take(size);
     }
